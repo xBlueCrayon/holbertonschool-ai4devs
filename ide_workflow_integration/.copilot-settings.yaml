@@ -1,0 +1,57 @@
+languages:
+
+  python:
+    style_guide: "pep8"
+    type_hints: true
+    max_line_length: 88
+    docstrings: true
+
+  javascript:
+    style_guide: "eslint"
+    semicolons: true
+    use_es6: true
+    prefer_const: true
+
+  c:
+    style_guide: "linux-kernel"
+    memory_safety: true
+    pointer_checks: true
+
+workflows:
+
+  code_review:
+    enabled: true
+    focus_areas:
+      - security
+      - performance
+      - readability
+      - maintainability
+
+  debugging:
+    enabled: true
+    include_stack_traces: true
+    suggest_tests: true
+
+  documentation:
+    enabled: true
+    generate_readme: true
+    generate_comments: true
+    markdown_support: true
+
+  test_generation:
+    enabled: true
+    include_edge_cases: true
+    auto_generate_assertions: true
+
+validation:
+
+  require_manual_review: true
+  require_local_testing: true
+  prevent_sensitive_data: true
+
+productivity:
+
+  auto_complete: true
+  inline_suggestions: true
+  explain_code: true
+  optimize_refactors: true
