@@ -9,6 +9,7 @@ servers:
   - url: https://api.financeflowai.com/v1
 
 components:
+
   securitySchemes:
     bearerAuth:
       type: http
@@ -17,15 +18,13 @@ components:
 
   schemas:
 
-    User:
+    Error:
       type: object
       properties:
-        id:
+        message:
+          type: string
+        code:
           type: integer
-        name:
-          type: string
-        email:
-          type: string
 
     Expense:
       type: object
@@ -60,22 +59,35 @@ components:
         target_amount:
           type: number
 
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: integer
+  responses:
 
-security:
-  - bearerAuth: []
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    BadRequestError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFoundError:
+      description: Resource Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
 
 paths:
 
   /auth/login:
     post:
       summary: Authenticate user
+
       requestBody:
         required: true
         content:
@@ -91,12 +103,18 @@ paths:
       responses:
         '200':
           description: Login successful
+
         '401':
-          description: Invalid credentials
+          $ref: '#/components/responses/UnauthorizedError'
 
   /expenses:
+
     get:
       summary: Retrieve all expenses
+
+      security:
+        - bearerAuth: []
+
       parameters:
         - in: query
           name: page
@@ -112,10 +130,17 @@ paths:
 
       responses:
         '200':
-          description: List of expenses
+          description: Expense list returned
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
 
     post:
       summary: Create expense
+
+      security:
+        - bearerAuth: []
+
       requestBody:
         required: true
         content:
@@ -126,12 +151,20 @@ paths:
       responses:
         '201':
           description: Expense created
+
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/BadRequestError'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
 
   /expenses/{id}:
+
     get:
       summary: Get expense by ID
+
+      security:
+        - bearerAuth: []
 
       parameters:
         - in: path
@@ -142,12 +175,19 @@ paths:
 
       responses:
         '200':
-          description: Expense details
+          description: Expense retrieved
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
         '404':
-          description: Expense not found
+          $ref: '#/components/responses/NotFoundError'
 
     put:
       summary: Update expense
+
+      security:
+        - bearerAuth: []
 
       parameters:
         - in: path
@@ -167,8 +207,20 @@ paths:
         '200':
           description: Expense updated
 
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
     delete:
       summary: Delete expense
+
+      security:
+        - bearerAuth: []
 
       parameters:
         - in: path
@@ -181,16 +233,45 @@ paths:
         '200':
           description: Expense deleted
 
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
   /budgets:
+
     get:
       summary: Retrieve budgets
 
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+
       responses:
         '200':
-          description: Budget list
+          description: Budget list returned
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
 
     post:
       summary: Create budget
+
+      security:
+        - bearerAuth: []
 
       requestBody:
         required: true
@@ -203,16 +284,45 @@ paths:
         '201':
           description: Budget created
 
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
   /savings-goals:
+
     get:
       summary: Retrieve savings goals
 
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+
       responses:
         '200':
-          description: Savings goals list
+          description: Savings goals returned
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
 
     post:
       summary: Create savings goal
+
+      security:
+        - bearerAuth: []
 
       requestBody:
         required: true
@@ -225,26 +335,53 @@ paths:
         '201':
           description: Savings goal created
 
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
   /analytics/dashboard:
+
     get:
       summary: Retrieve dashboard analytics
+
+      security:
+        - bearerAuth: []
 
       responses:
         '200':
           description: Dashboard analytics returned
 
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
   /reports/monthly:
+
     get:
-      summary: Generate monthly financial report
+      summary: Generate monthly report
+
+      security:
+        - bearerAuth: []
 
       responses:
         '200':
           description: Monthly report generated
 
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
   /ai/recommendations:
+
     get:
-      summary: Retrieve AI-powered financial recommendations
+      summary: Retrieve AI recommendations
+
+      security:
+        - bearerAuth: []
 
       responses:
         '200':
           description: AI recommendations returned
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
