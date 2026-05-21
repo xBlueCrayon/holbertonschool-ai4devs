@@ -1,5 +1,14 @@
 def greet_user(name)
-    print("Hello, " + name)
+
+    print("Preparing greeting")
+
+    message = "Hello, " + name
+
+    print(message)
 
 
-greet_user("Akshay")
+user_name = "Akshay"
+
+print("Calling function")
+
+greet_user(user_name)

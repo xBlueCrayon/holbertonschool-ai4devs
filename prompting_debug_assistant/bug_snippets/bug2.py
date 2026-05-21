@@ -1,12 +1,20 @@
 def divide_numbers(numbers, divisor):
     results = []
 
+    print("Dividing numbers by:", divisor)
+
     for number in numbers:
-        results.append(number / divisor)
+        print("Current number:", number)
+
+        result = number / divisor
+
+        results.append(result)
 
     return results
 
 
 values = [10, 20, 30]
 
-print(divide_numbers(values, 0))
+final_results = divide_numbers(values, 0)
+
+print(final_results)

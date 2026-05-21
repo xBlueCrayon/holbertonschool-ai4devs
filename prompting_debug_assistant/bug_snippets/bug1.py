@@ -1,7 +1,12 @@
 def get_last_items(items, n):
     result = []
 
-    for i in range(len(items) - n, len(items) + 1):
+    start_index = len(items) - n
+
+    print("Starting index:", start_index)
+
+    for i in range(start_index, len(items) + 1):
+        print("Reading index:", i)
         result.append(items[i])
 
     return result
@@ -9,4 +14,6 @@ def get_last_items(items, n):
 
 numbers = [1, 2, 3, 4, 5]
 
-print(get_last_items(numbers, 2))
+last_items = get_last_items(numbers, 2)
+
+print(last_items)
