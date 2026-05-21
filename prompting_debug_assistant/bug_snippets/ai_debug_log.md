@@ -8,7 +8,7 @@
 **AI Diagnosis:**  
 The function attempts to access an invalid index in the list.
 
-The loop:
+The problem comes from this loop:
 
 ```python
 for i in range(start_index, len(items) + 1):
