@@ -1,0 +1,250 @@
+openapi: 3.0.3
+
+info:
+  title: FinanceFlow AI API
+  version: 1.0.0
+  description: API for expense tracking, budgeting, savings goals, analytics, and AI recommendations.
+
+servers:
+  - url: https://api.financeflowai.com/v1
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+
+    Expense:
+      type: object
+      properties:
+        id:
+          type: integer
+        amount:
+          type: number
+        category:
+          type: string
+        date:
+          type: string
+          format: date
+
+    Budget:
+      type: object
+      properties:
+        id:
+          type: integer
+        category:
+          type: string
+        limit:
+          type: number
+
+    SavingsGoal:
+      type: object
+      properties:
+        id:
+          type: integer
+        goal_name:
+          type: string
+        target_amount:
+          type: number
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+
+security:
+  - bearerAuth: []
+
+paths:
+
+  /auth/login:
+    post:
+      summary: Authenticate user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+
+      responses:
+        '200':
+          description: Login successful
+        '401':
+          description: Invalid credentials
+
+  /expenses:
+    get:
+      summary: Retrieve all expenses
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+
+      responses:
+        '200':
+          description: List of expenses
+
+    post:
+      summary: Create expense
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Expense'
+
+      responses:
+        '201':
+          description: Expense created
+        '400':
+          description: Invalid request
+
+  /expenses/{id}:
+    get:
+      summary: Get expense by ID
+
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Expense details
+        '404':
+          description: Expense not found
+
+    put:
+      summary: Update expense
+
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Expense'
+
+      responses:
+        '200':
+          description: Expense updated
+
+    delete:
+      summary: Delete expense
+
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Expense deleted
+
+  /budgets:
+    get:
+      summary: Retrieve budgets
+
+      responses:
+        '200':
+          description: Budget list
+
+    post:
+      summary: Create budget
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Budget'
+
+      responses:
+        '201':
+          description: Budget created
+
+  /savings-goals:
+    get:
+      summary: Retrieve savings goals
+
+      responses:
+        '200':
+          description: Savings goals list
+
+    post:
+      summary: Create savings goal
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavingsGoal'
+
+      responses:
+        '201':
+          description: Savings goal created
+
+  /analytics/dashboard:
+    get:
+      summary: Retrieve dashboard analytics
+
+      responses:
+        '200':
+          description: Dashboard analytics returned
+
+  /reports/monthly:
+    get:
+      summary: Generate monthly financial report
+
+      responses:
+        '200':
+          description: Monthly report generated
+
+  /ai/recommendations:
+    get:
+      summary: Retrieve AI-powered financial recommendations
+
+      responses:
+        '200':
+          description: AI recommendations returned
