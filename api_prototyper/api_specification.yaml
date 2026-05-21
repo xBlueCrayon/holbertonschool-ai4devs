@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: FinanceFlow AI API
   version: 1.0.0
-  description: API for expense tracking, budgeting, savings goals, analytics, and AI recommendations.
+  description: API for expense tracking, budgeting, savings goals, analytics, notifications, and AI recommendations.
 
 servers:
   - url: https://api.financeflowai.com/v1
@@ -35,6 +35,8 @@ components:
           type: number
         category:
           type: string
+        description:
+          type: string
         date:
           type: string
           format: date
@@ -57,6 +59,8 @@ components:
         goal_name:
           type: string
         target_amount:
+          type: number
+        current_amount:
           type: number
 
   responses:
@@ -81,6 +85,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+
+security:
+  - bearerAuth: []
 
 paths:
 
@@ -161,7 +168,7 @@ paths:
   /expenses/{id}:
 
     get:
-      summary: Get expense by ID
+      summary: Retrieve expense by ID
 
       security:
         - bearerAuth: []
@@ -290,6 +297,48 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
+  /budgets/{id}:
+
+    put:
+      summary: Update budget
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Budget updated
+
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    delete:
+      summary: Delete budget
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Budget deleted
+
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
   /savings-goals:
 
     get:
@@ -341,6 +390,48 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
+  /savings-goals/{id}:
+
+    put:
+      summary: Update savings goal
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Savings goal updated
+
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    delete:
+      summary: Delete savings goal
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Savings goal deleted
+
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
   /analytics/dashboard:
 
     get:
@@ -367,6 +458,21 @@ paths:
       responses:
         '200':
           description: Monthly report generated
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /notifications:
+
+    get:
+      summary: Retrieve notifications
+
+      security:
+        - bearerAuth: []
+
+      responses:
+        '200':
+          description: Notification list returned
 
         '401':
           $ref: '#/components/responses/UnauthorizedError'

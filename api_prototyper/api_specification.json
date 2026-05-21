@@ -3,7 +3,7 @@
   "info": {
     "title": "FinanceFlow AI API",
     "version": "1.0.0",
-    "description": "API for expense tracking, budgeting, savings goals, analytics, and AI recommendations."
+    "description": "API for expense tracking, budgeting, savings goals, analytics, notifications, and AI recommendations."
   },
   "servers": [
     {
@@ -42,6 +42,9 @@
           "category": {
             "type": "string"
           },
+          "description": {
+            "type": "string"
+          },
           "date": {
             "type": "string",
             "format": "date"
@@ -73,6 +76,9 @@
           },
           "target_amount": {
             "type": "number"
+          },
+          "current_amount": {
+            "type": "number"
           }
         }
       }
@@ -89,6 +95,11 @@
       }
     }
   },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
   "paths": {
     "/auth/login": {
       "post": {
@@ -135,6 +146,221 @@
           },
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create expense",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Expense created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/expenses/{id}": {
+      "get": {
+        "summary": "Retrieve expense by ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expense retrieved"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update expense",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expense updated"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete expense",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expense deleted"
+          }
+        }
+      }
+    },
+    "/budgets": {
+      "get": {
+        "summary": "Retrieve budgets",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Budget list returned"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create budget",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Budget created"
+          }
+        }
+      }
+    },
+    "/savings-goals": {
+      "get": {
+        "summary": "Retrieve savings goals",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Savings goals returned"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create savings goal",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Savings goal created"
+          }
+        }
+      }
+    },
+    "/analytics/dashboard": {
+      "get": {
+        "summary": "Retrieve dashboard analytics",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dashboard analytics returned"
+          }
+        }
+      }
+    },
+    "/reports/monthly": {
+      "get": {
+        "summary": "Generate monthly report",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Monthly report generated"
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "summary": "Retrieve notifications",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification list returned"
+          }
+        }
+      }
+    },
+    "/ai/recommendations": {
+      "get": {
+        "summary": "Retrieve AI recommendations",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AI recommendations returned"
           }
         }
       }
