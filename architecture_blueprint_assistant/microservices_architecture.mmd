@@ -1,0 +1,32 @@
+graph TD
+
+A[Web and Mobile Frontend] --> B[API Gateway]
+
+B --> C[Authentication Service]
+B --> D[Expense Tracking Service]
+B --> E[Budget Management Service]
+B --> F[Savings Goal Service]
+B --> G[Analytics Service]
+B --> H[Notification Service]
+B --> I[AI Recommendation Service]
+B --> J[Reporting Service]
+
+C --> K[(Auth Database)]
+D --> L[(Expense Database)]
+E --> M[(Budget Database)]
+F --> N[(Savings Database)]
+G --> O[(Analytics Database)]
+H --> P[(Notification Database)]
+I --> Q[(AI Model and Data Store)]
+J --> R[(Reporting Database)]
+
+G --> D
+G --> E
+G --> F
+
+I --> D
+I --> E
+I --> F
+
+H --> C
+J --> G
