@@ -122,7 +122,9 @@ class RecommendationEngine:
 
 if __name__ == "__main__":
 
-    print("Reference implementation validation started")
+    print("===================================")
+    print("REFERENCE IMPLEMENTATION VALIDATION")
+    print("===================================")
 
     engine = RecommendationEngine()
 
@@ -147,5 +149,9 @@ if __name__ == "__main__":
     print("Generated recommendations:")
     print(recommendations)
 
-    print("Reference implementation executed successfully")
+    assert isinstance(recommendations, list)
+    assert recommendations[0]["product_id"] == 20
+    assert recommendations[0]["score"] == 4.9
+
+    print("Validation checks completed successfully")
     print("All recommendation engine tests passed")
