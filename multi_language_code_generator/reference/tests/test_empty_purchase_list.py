@@ -3,14 +3,13 @@ from multi_language_code_generator.reference.tests.recommendation_engine import 
 engine = RecommendationEngine()
 
 products = [
-    {"product_id": 1, "rating": 4.1},
-    {"product_id": 2, "rating": 4.2},
-    {"product_id": 3, "rating": 4.3}
+    {"product_id": 1, "rating": 4.5},
+    {"product_id": 2, "rating": 4.9}
 ]
 
 user = {
-    "user_id": 5,
-    "purchases": [1]
+    "user_id": 55,
+    "purchases": []
 }
 
 results = engine.generate_recommendations(
@@ -19,3 +18,4 @@ results = engine.generate_recommendations(
 )
 
 assert len(results) == 2
+assert results[0]["product_id"] == 2

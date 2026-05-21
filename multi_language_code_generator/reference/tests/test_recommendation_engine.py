@@ -1,6 +1,6 @@
 import unittest
 
-from recommendation_engine import RecommendationEngine
+from multi_language_code_generator.reference.tests.recommendation_engine import RecommendationEngine
 
 
 class TestRecommendationEngine(unittest.TestCase):
