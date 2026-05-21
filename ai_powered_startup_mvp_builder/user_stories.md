@@ -1,12 +1,12 @@
 # User Stories
 
 ## User Story 1
-As a startup founder, I want to generate a startup idea summary so that I can quickly validate my business concept.
+As a startup founder, I want to generate a startup idea summary so that I can validate my business concept quickly.
 
 ### Acceptance Criteria
 - User can enter a startup idea
 - AI generates a business summary
-- Summary includes target market and value proposition
+- Summary includes target audience and value proposition
 
 ---
 
@@ -16,37 +16,37 @@ As a founder, I want AI-generated pitch deck sections so that I can prepare inve
 ### Acceptance Criteria
 - AI generates problem statement
 - AI generates solution description
-- AI generates business model summary
+- AI generates revenue model summary
 
 ---
 
 ## User Story 3
-As a product manager, I want competitor analysis suggestions so that I can identify market gaps.
+As a product manager, I want competitor analysis suggestions so that I can identify market opportunities.
 
 ### Acceptance Criteria
-- User receives competitor suggestions
-- AI identifies differentiators
-- Market gap analysis is displayed
+- Competitor suggestions are displayed
+- AI identifies market gaps
+- Suggested differentiators are included
 
 ---
 
 ## User Story 4
-As a student entrepreneur, I want MVP feature planning so that I can prioritize development tasks.
+As a student entrepreneur, I want MVP feature planning so that I can prioritize development tasks effectively.
 
 ### Acceptance Criteria
 - AI generates MVP feature list
 - Features are prioritized
-- Roadmap suggestions are included
+- Roadmap suggestions are displayed
 
 ---
 
 ## User Story 5
-As an incubator mentor, I want startup summaries exported as PDF so that teams can submit professional reports.
+As a founder, I want to export startup summaries as PDF files so that I can share them with investors.
 
 ### Acceptance Criteria
 - Export button is available
-- PDF file is generated successfully
-- Exported report contains startup details
+- PDF generation succeeds
+- Export includes startup summary content
 
 ---
 
@@ -54,9 +54,9 @@ As an incubator mentor, I want startup summaries exported as PDF so that teams c
 As a user, I want secure login functionality so that my startup ideas remain private.
 
 ### Acceptance Criteria
-- User can register account
+- User can register an account
 - User can log in securely
-- Unauthorized users cannot access saved projects
+- Unauthorized access is prevented
 
 ---
 
@@ -64,36 +64,16 @@ As a user, I want secure login functionality so that my startup ideas remain pri
 As a founder, I want to save startup drafts so that I can continue editing later.
 
 ### Acceptance Criteria
-- Drafts can be saved
-- Saved projects appear in dashboard
-- User can reopen existing drafts
+- Drafts can be saved successfully
+- Saved drafts appear in dashboard
+- User can reopen saved drafts
 
 ---
 
 ## User Story 8
-As a consultant, I want AI-generated revenue model suggestions so that I can improve startup planning.
+As a founder, I want a project dashboard so that I can manage multiple startup ideas easily.
 
 ### Acceptance Criteria
-- Revenue suggestions are generated
-- Multiple revenue models are displayed
-- Suggestions are relevant to startup category
-
----
-
-## User Story 9
-As a founder, I want a clean dashboard so that I can manage multiple startup projects easily.
-
-### Acceptance Criteria
-- Dashboard lists projects
-- Users can open or delete projects
-- Project summaries are visible
-
----
-
-## User Story 10
-As a founder, I want quick startup generation results so that I can iterate on ideas rapidly.
-
-### Acceptance Criteria
-- AI generation completes within seconds
-- Results are displayed clearly
-- User can regenerate suggestions
+- Dashboard lists startup projects
+- User can open projects
+- User can delete projects
