@@ -16,7 +16,7 @@ class TestRecommendationEngine(unittest.TestCase):
             {"product_id": 5, "rating": 4.8}
         ]
 
-    def test_generate_recommendations(self):
+    def test_basic_recommendation(self):
         user = {
             "user_id": 1,
             "purchases": [1]
@@ -27,7 +27,21 @@ class TestRecommendationEngine(unittest.TestCase):
             self.products
         )
 
-        self.assertTrue(len(results) > 0)
+        self.assertEqual(results[0]["product_id"], 3)
+
+    def test_limit_results(self):
+        user = {
+            "user_id": 1,
+            "purchases": []
+        }
+
+        results = self.engine.generate_recommendations(
+            user,
+            self.products,
+            limit=2
+        )
+
+        self.assertEqual(len(results), 2)
 
     def test_exclude_purchased_products(self):
         user = {
@@ -45,7 +59,7 @@ class TestRecommendationEngine(unittest.TestCase):
         self.assertNotIn(1, ids)
         self.assertNotIn(2, ids)
 
-    def test_limit_results(self):
+    def test_empty_products(self):
         user = {
             "user_id": 1,
             "purchases": []
@@ -53,41 +67,23 @@ class TestRecommendationEngine(unittest.TestCase):
 
         results = self.engine.generate_recommendations(
             user,
-            self.products,
-            limit=2
+            []
         )
 
-        self.assertEqual(len(results), 2)
-
-    def test_empty_purchases(self):
-        user = {
-            "user_id": 1,
-            "purchases": []
-        }
-
-        results = self.engine.generate_recommendations(
-            user,
-            self.products
-        )
-
-        self.assertTrue(len(results) > 0)
-
-    def test_all_products_purchased(self):
-        user = {
-            "user_id": 1,
-            "purchases": [1, 2, 3, 4, 5]
-        }
-
-        results = self.engine.generate_recommendations(
-            user,
-            self.products
-        )
-
-        self.assertEqual(len(results), 0)
+        self.assertEqual(results, [])
 
     def test_negative_rating(self):
         products = [
             {"product_id": 1, "rating": -5}
+        ]
+
+        scores = self.engine.calculate_popularity(products)
+
+        self.assertEqual(scores[1], 0)
+
+    def test_missing_rating(self):
+        products = [
+            {"product_id": 1}
         ]
 
         scores = self.engine.calculate_popularity(products)
@@ -110,14 +106,20 @@ class TestRecommendationEngine(unittest.TestCase):
             results[1]["score"]
         )
 
-    def test_missing_rating(self):
-        products = [
-            {"product_id": 1}
-        ]
+    def test_duplicate_purchases(self):
+        user = {
+            "user_id": 1,
+            "purchases": [1, 1]
+        }
 
-        scores = self.engine.calculate_popularity(products)
+        results = self.engine.generate_recommendations(
+            user,
+            self.products
+        )
 
-        self.assertEqual(scores[1], 0)
+        ids = [item["product_id"] for item in results]
+
+        self.assertNotIn(1, ids)
 
     def test_large_limit(self):
         user = {
@@ -133,10 +135,10 @@ class TestRecommendationEngine(unittest.TestCase):
 
         self.assertTrue(len(results) <= 20)
 
-    def test_duplicate_purchases(self):
+    def test_all_products_purchased(self):
         user = {
             "user_id": 1,
-            "purchases": [1, 1, 2]
+            "purchases": [1, 2, 3, 4, 5]
         }
 
         results = self.engine.generate_recommendations(
@@ -144,10 +146,7 @@ class TestRecommendationEngine(unittest.TestCase):
             self.products
         )
 
-        ids = [item["product_id"] for item in results]
-
-        self.assertNotIn(1, ids)
-        self.assertNotIn(2, ids)
+        self.assertEqual(results, [])
 
 
 if __name__ == "__main__":
